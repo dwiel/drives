@@ -126,6 +126,15 @@ module.exports = async function cmd (src, dst, options = {}) {
       const srcEntry = await source.entry(key)
       const tgtEntry = await destination.entry(key)
 
+      if (srcEntry === null) {
+        console.log(`Source entry for key ${key} is null, skipping...`)
+        continue
+      }
+      if (tgtEntry === null) {
+        console.log(`Target entry for key ${key} is null, skipping...`)
+        continue
+      }
+
       if (await same(srcEntry, tgtEntry, source, destination)) continue
 
       const isDelete = srcEntry === null
