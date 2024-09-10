@@ -14,6 +14,7 @@ const get = require('./bin/get.js')
 const rm = require('./bin/rm.js')
 const info = require('./bin/info.js')
 const purge = require('./bin/purge.js')
+const truncate = require('./bin/truncate.js')
 
 const program = new Command()
 
@@ -117,5 +118,12 @@ program.command('purge')
   .argument('<key>', 'Drive public key')
   .option('--storage <path>', 'Storage path')
   .action(purge)
+
+program.command('truncate')
+  .description('Truncate a Hyperdrive to a specific version')
+  .argument('<src>', 'Source drive (key or path)')
+  .option('-v, --version <number>', 'Version to truncate to', parseInt)
+  .option('--storage <path>', 'Storage path')
+  .action(truncate)
 
 program.parseAsync()
