@@ -126,15 +126,6 @@ module.exports = async function cmd (src, dst, options = {}) {
       const srcEntry = await source.entry(key)
       const tgtEntry = await destination.entry(key)
 
-      if (srcEntry === null) {
-        console.log(`Source entry for key ${key} is null, skipping...`)
-        continue
-      }
-      if (tgtEntry === null) {
-        console.log(`Target entry for key ${key} is null, skipping...`)
-        continue
-      }
-
       if (await same(srcEntry, tgtEntry, source, destination)) continue
 
       const isDelete = srcEntry === null
@@ -235,6 +226,7 @@ function blobLength (entry) {
 // Source: adapted from https://github.com/holepunchto/mirror-drive/blob/037acd7d2566915d43d7dc62b4b30d15522b9df9/index.js#L126-L140
 async function same (srcEntry, dstEntry, srcDrive, dstDrive) {
   if (!dstEntry) return false
+  if (!srcEntry) return false
 
   if (srcEntry.value.linkname || dstEntry.value.linkname) {
     return srcEntry.value.linkname === dstEntry.value.linkname
